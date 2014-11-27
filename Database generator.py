@@ -1,11 +1,38 @@
 import random
+from statistics import median
 import json
-import csv
+#import csv
 
-print ("shark's database generator v0.001")
+data_values = []
 
-n = input ("Number of samples (n) = ")
-n = int(n)
+def random_data(n, minimum, maximun):
+  for x in random.sample(range(minimum,maximun),n):
+    data_values.append(x)
+  return data_values
+
+def trending_data(n, minimum, maximun):
+  i = n
+  data_values.append(minimum)
+  while i > 0:
+    k = n-i
+    data_values.append(data_values[k] + random.randint(-2,5)) #TO_DO randint should be tied to maximun and minimum
+    i -= 1
+  return data_values
+
+def normal_data(n, minimum, maximun):
+  min_max = [minimum, maximun]
+  mid = median(min_max)
+  print (mid)
+  i = n
+  while i > 0:
+    data_values.append(int(random.triangular(minimum, maximun, mid)))
+    i -= 1
+  return data_values
+
+
+print ("shark's database generator v0.002")
+
+n = int(input ("Number of samples (n) = "))
 print ("n =",n)
 
 data_points = list(range(1,n+1))
@@ -14,7 +41,17 @@ print (data_points)
 minimum = int(input("Choose minimum data value: "))
 maximun = int(input("Choose maximun data value: "))
 
-data_values = random.sample(range(minimum,maximun),n)
+data_type = input ("Choose data type: (R)andom, (T)rending, (N)ormal.")
+if data_type == "R" or data_type == "r":
+  random_data(n, minimum, maximun)
+elif data_type == "T" or data_type == "t":
+  trending_data(n, minimum, maximun)
+elif data_type == "N" or data_type == "n":
+  normal_data(n, minimum, maximun)
+
+else:
+  print ("Sorry, selection unknown.")
+
 print (data_values)
 
 database = dict(zip(data_points, data_values))
@@ -27,3 +64,6 @@ with open("output.json","w") as json_file:
   #csv_file = csv.writer(csvfile, delimiter=",", quotechar="|", quoting=csv.QUOTE_MINIMAL)
   #csv_file.writerow(database.keys())
   #csv_file.writerow(database.values())
+
+print ("Data has been exported to output.json")
+input("Press Enter to close")
