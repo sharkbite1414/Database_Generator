@@ -3,7 +3,9 @@ from statistics import median
 import json
 #import csv
 
+
 data_values = []
+
 
 def random_data(n, minimum, maximun):
   for x in random.sample(range(minimum,maximun),n):
@@ -19,13 +21,10 @@ def trending_data(n, minimum, maximun):
     i -= 1
   return data_values
 
-def normal_data(n, minimum, maximun):
-  min_max = [minimum, maximun]
-  mid = median(min_max)
-  print (mid)
+def normal_data(n, mu, sigma):
   i = n
   while i > 0:
-    data_values.append(int(random.triangular(minimum, maximun, mid)))
+    data_values.append(random.normalvariate(mu, sigma))
     i -= 1
   return data_values
 
@@ -38,16 +37,20 @@ print ("n =",n)
 data_points = list(range(1,n+1))
 print (data_points)
 
-minimum = int(input("Choose minimum data value: "))
-maximun = int(input("Choose maximun data value: "))
-
 data_type = input ("Choose data type: (R)andom, (T)rending, (N)ormal.")
 if data_type == "R" or data_type == "r":
+  minimum = int(input("Choose minimum data value: "))
+  maximun = int(input("Choose maximun data value: "))
   random_data(n, minimum, maximun)
 elif data_type == "T" or data_type == "t":
+  minimum = int(input("Choose minimum data value: "))
+  maximun = int(input("Choose maximun data value: "))
   trending_data(n, minimum, maximun)
 elif data_type == "N" or data_type == "n":
-  normal_data(n, minimum, maximun)
+  mu = int(input("Choose mean: "))
+  sigma = int(input("Choose std dev: "))
+  normal_data(n, mu, sigma)
+
 
 else:
   print ("Sorry, selection unknown.")
