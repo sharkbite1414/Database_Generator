@@ -4,10 +4,10 @@ from statistics import median
 import json
 import csv
 
-
+#Intitial variables
 data_values = []
 
-
+#Functions
 def random_data(n, minimum, maximum):
     for x in range(0, n):
         r = random.uniform(minimum, maximum)
@@ -17,26 +17,25 @@ def random_data(n, minimum, maximum):
 def trending_data(n, minimum, maximum):
     i = n
     data_values.append(minimum)
-    real_plus = float(((minimum) + (maximum)/2) / (n * 0.2))
+    #real_plus and real_minus are to add variation to the data whith the aim of making it look more realistic.
+    real_plus = float((maximum - minimum) / (n * 0.2))
     real_minus = float((-1 * real_plus) * 0.20)
-    print ("real_minus =",real_minus)
-    print ("real_plus =",real_plus)
+    print ("real_minus =",real_minus) #Debug
+    print ("real_plus =",real_plus) #Debug
     while i > 0:
         k = n-i
         r = random.uniform(real_minus, real_plus)
-        print ("i =",i)
-        print ("r =",r)
-        print ("data_values[k]",data_values[k])
+        print ("i =",i) #Debug
+        print ("r =",r) #Debug
+        print ("data_values[k]",data_values[k]) #Debug
         if (data_values[k] + r >= minimum ) and (data_values[k] + r <= maximum) and i > 0:
             data_values.append(data_values[k] + r)
-            print ("i in while =",i)
-            print ("r in while =",r)
-            print ("data_values[k]",data_values[k])
-            r = random.uniform(real_minus, real_plus)
+            print ("i in while =",i) #Debug
+            print ("r in while =",r) #Debug
+            print ("data_values[k]",data_values[k]) #Debug
+            r = random.uniform(real_minus, real_plus) #To stop the loop completing using the same value for r every time.
             i -= 1
-        else:
-            r = random.uniform(real_minus, real_plus)
-            print ("r in else =",r)
+
     return r
     return i
     return data_values
@@ -46,16 +45,17 @@ def normal_data(n, mu, sigma):
     while i > 0:
         data_values.append(random.normalvariate(mu, sigma))
         i -= 1
-        return data_values
+        print ("i in while:",i) #Debug
+    return data_values
 
-
+#Start
 print ("sharkbite1414's database generator v0.003")
 
 n = int(input ("Number of samples (n) = "))
-#print ("n =",n)
+#print ("n =",n) #Debug
 
 data_points = list(range(1,n+1))
-#print (data_points)
+#print (data_points) #Debug
 
 data_type = input ("Choose data type: (R)andom, (T)rending, (N)ormal: ")
 if data_type == "R" or data_type == "r":
